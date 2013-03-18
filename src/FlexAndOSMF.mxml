@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   height="960"
+			   width="960"
+			   backgroundColor="#000000"
+			   applicationComplete = "initPlayer()">
+	<fx:Script>
+		<![CDATA[
+			import org.osmf.containers.MediaContainer;
+			import org.osmf.elements.ParallelElement;
+			import org.osmf.elements.SerialElement;
+			import org.osmf.layout.HorizontalAlign;
+			import org.osmf.layout.VerticalAlign;
+			import org.osmf.media.DefaultMediaFactory;
+			import org.osmf.media.MediaElement;
+			import org.osmf.media.MediaPlayer;
+			import org.osmf.media.URLResource;
+			//這是視訊來源
+			public static const MP4_PATH:String = "rtmp://cp67126.edgefcs.net/ondemand/mp4:mediapm/ovp/content/demo/video/elephants_dream/elephants_dream_768x428_24.0fps_408kbps.mp4";
+			
+			public var player:MediaPlayer;
+			public var container:MediaContainer;
+			public var mediaFactory:DefaultMediaFactory;
+			
+			public function initPlayer():void
+			{
+				trace("good day");
+				stage.scaleMode = StageScaleMode.NO_SCALE;
+				stage.align = StageAlign.TOP_LEFT;
+				mediaFactory = new DefaultMediaFactory();
+				var rootElement:SerialElement = new SerialElement();
+				var parallelComp:ParallelElement = new ParallelElement();
+				rootElement.addChild( parallelComp );
+				
+				var mainElement:MediaElement = mediaFactory.createMediaElement( new URLResource( MP4_PATH ));
+				rootElement.addChild( mainElement );
+				
+				var rootContainer:MediaContainer = new MediaContainer();
+				rootContainer.width = 960;
+				rootContainer.height = 480;
+				addChild( rootContainer );
+				
+				var mainContainer:MediaContainer = new MediaContainer();
+				mainContainer.backgroundColor = 0x999999;
+				mainContainer.backgroundAlpha = 1;
+				mainContainer.width = 768;
+				mainContainer.height = 428;
+				mainContainer.layoutMetadata.verticalAlign = VerticalAlign.BOTTOM;
+				mainContainer.layoutMetadata.horizontalAlign = HorizontalAlign.LEFT;
+				addChild( mainContainer );
+				
+				mainContainer.addMediaElement( rootElement );
+				
+				rootContainer.layoutRenderer.addTarget( mainContainer );
+				
+				player = new MediaPlayer( rootElement );
+				
+			}
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:HorizontalLayout/>
+	</s:layout>
+	<s:Button id="play" label="play"/>
+	<s:Button id="stop" label="stop"/>
+	
+</s:Application>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
